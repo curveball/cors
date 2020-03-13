@@ -1,7 +1,7 @@
 {
   "name": "@curveball/cors",
   "version": "0.0.1",
-  "description": "CORS plugin middleware for curveball",
+  "description": "CORS middleware for curveball",
   "main": "dist/index.js",
   "scripts": {
     "prepublishOnly": "make build",
