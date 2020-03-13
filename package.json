@@ -66,5 +66,8 @@
       "js",
       "tsx"
     ]
+  },
+  "dependencies": {
+    "@curveball/http-errors": "^0.3.0"
   }
 }
