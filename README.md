@@ -1,4 +1,4 @@
-Curveball CORS
+Curveball CORS middleware
 =====================
 
 This package is a middleware for the [Curveball][1] framework.
