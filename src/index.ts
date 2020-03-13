@@ -1,7 +1,8 @@
 import { Middleware } from '@curveball/core';
+import { Forbidden } from '@curveball/http-errors';
 
 type CorsOptions = {
-  allowOrigin: string[],
+  allowOrigin: string[] | string,
   allowHeaders?: string[],
   allowMethods?: string[],
   exposeHeaders?: string[],
@@ -9,12 +10,19 @@ type CorsOptions = {
 
 export default function(options: CorsOptions): Middleware {
 
+  const allowedOrigins = Array.isArray(options.allowOrigin) ? options.allowOrigin : [options.allowOrigin];
+
   return (ctx, next) => {
 
     const origin = ctx.request.headers.get('Origin');
 
     if (origin) {
-      ctx.response.headers.set('Access-Control-Allow-Origin', options.allowOrigin);
+
+      if (!allowedOrigins.includes(origin) && !allowedOrigins.includes('*')) {
+        throw new Forbidden('HTTP request for this origin is not allowed');
+      }
+
+      ctx.response.headers.set('Access-Control-Allow-Origin', origin);
       if (options.allowHeaders) {
         ctx.response.headers.set('Access-Control-Allow-Headers', options.allowHeaders);
       }
