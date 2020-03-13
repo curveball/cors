@@ -12,7 +12,7 @@ Installation
 Getting started
 ---------------
 
-Simply import the CORS middleware to an existing Curveball server:
+After installing the NPM package, simply import the CORS middleware to an existing Curveball server:
 
 ```typescript
 import cors from '@curveball/cors';
