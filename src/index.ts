@@ -6,6 +6,7 @@ type CorsOptions = {
   allowHeaders?: string[],
   allowMethods?: string[],
   exposeHeaders?: string[],
+
 }
 
 export default function(options: CorsOptions): Middleware {
