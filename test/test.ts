@@ -8,7 +8,7 @@ describe('CORS middleware', () => {
 
     const options = {
       allowOrigin: ['https://example.org']
-    }
+    };
     const app = new Application;
     app.use(cors(options));
 
@@ -24,7 +24,7 @@ describe('CORS middleware', () => {
     expect(response.status).to.equal(200);
     expect(response.headers.has('Access-Control-Allow-Origin')).to.equal(false);
     expect(response.headers.has('Access-Control-Allow-Headers')).to.equal(false);
-    expect(response.headers.has('Access-Control-Allow-Methods')).to.equal(false);  
+    expect(response.headers.has('Access-Control-Allow-Methods')).to.equal(false);
     expect(response.headers.has('Access-Control-Expose-Headers')).to.equal(false);
 
     expect(response.body).to.equal('hello world');
@@ -38,10 +38,10 @@ describe('CORS middleware', () => {
       allowHeaders: ['Content-Type', 'Accept'],
       allowMethods: ['GET', 'POST'],
       exposeHeaders: ['Link', 'Date']
-    }
+    };
     const headers = {
       Origin: 'https://example.com'
-    }
+    };
     const app = new Application;
     app.use(cors(options));
 
@@ -57,7 +57,7 @@ describe('CORS middleware', () => {
     expect(response.status).to.equal(200);
     expect(response.headers.get('Access-Control-Allow-Origin')).to.equal('https://example.com');
     expect(response.headers.get('Access-Control-Allow-Headers')).to.equal('Content-Type, Accept');
-    expect(response.headers.get('Access-Control-Allow-Methods')).to.equal('GET, POST');  
+    expect(response.headers.get('Access-Control-Allow-Methods')).to.equal('GET, POST');
     expect(response.headers.get('Access-Control-Expose-Headers')).to.equal('Link, Date');
 
     expect(response.body).to.equal('hello world');
@@ -71,10 +71,10 @@ describe('CORS middleware', () => {
       allowHeaders: ['Content-Type', 'Accept'],
       allowMethods: ['GET', 'POST'],
       exposeHeaders: ['Link', 'Date']
-    }
+    };
     const headers = {
       Origin: 'https://example.net'
-    }
+    };
     const app = new Application;
     app.use(cors(options));
 
@@ -95,10 +95,10 @@ describe('CORS middleware', () => {
 
     const options = {
       allowOrigin: ['https://example.org', 'https://example.com'],
-    }
+    };
     const headers = {
       Origin: 'https://example.com'
-    }
+    };
     const app = new Application;
     app.use(cors(options));
 
@@ -114,7 +114,7 @@ describe('CORS middleware', () => {
     expect(response.status).to.equal(200);
     expect(response.headers.get('Access-Control-Allow-Origin')).to.equal('https://example.com');
     expect(response.headers.get('Access-Control-Allow-Headers')).to.equal(null);
-    expect(response.headers.get('Access-Control-Allow-Methods')).to.equal(null);  
+    expect(response.headers.get('Access-Control-Allow-Methods')).to.equal(null);
     expect(response.headers.get('Access-Control-Expose-Headers')).to.equal(null);
 
     expect(response.body).to.equal('hello world');
@@ -128,10 +128,10 @@ describe('CORS middleware', () => {
       allowHeaders: ['Content-Type', 'Accept'],
       allowMethods: ['GET', 'POST'],
       exposeHeaders: ['Link', 'Date']
-    }
+    };
     const headers = {
       Origin: 'https://example.net'
-    }
+    };
     const app = new Application;
     app.use(cors(options));
 
@@ -147,7 +147,7 @@ describe('CORS middleware', () => {
     expect(response.status).to.equal(200);
     expect(response.headers.get('Access-Control-Allow-Origin')).to.equal('https://example.net');
     expect(response.headers.get('Access-Control-Allow-Headers')).to.equal('Content-Type, Accept');
-    expect(response.headers.get('Access-Control-Allow-Methods')).to.equal('GET, POST');  
+    expect(response.headers.get('Access-Control-Allow-Methods')).to.equal('GET, POST');
     expect(response.headers.get('Access-Control-Expose-Headers')).to.equal('Link, Date');
 
     expect(response.body).to.equal('hello world');
@@ -160,10 +160,10 @@ describe('CORS middleware', () => {
       allowHeaders: ['Content-Type', 'Accept'],
       allowMethods: ['GET', 'POST'],
       exposeHeaders: ['Link', 'Date']
-    }
+    };
     const headers = {
       Origin: 'https://example.org'
-    }
+    };
     const app = new Application;
     app.use(cors(options));
 
@@ -179,7 +179,7 @@ describe('CORS middleware', () => {
     expect(response.status).to.equal(200);
     expect(response.headers.get('Access-Control-Allow-Origin')).to.equal('https://example.org');
     expect(response.headers.get('Access-Control-Allow-Headers')).to.equal('Content-Type, Accept');
-    expect(response.headers.get('Access-Control-Allow-Methods')).to.equal('GET, POST');  
+    expect(response.headers.get('Access-Control-Allow-Methods')).to.equal('GET, POST');
     expect(response.headers.get('Access-Control-Expose-Headers')).to.equal('Link, Date');
 
     expect(response.body).to.equal(null);
