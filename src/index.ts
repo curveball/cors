@@ -40,5 +40,5 @@ export default function(options: CorsOptions): Middleware {
       ctx.status = 200;
       return undefined;
     }
-  }
+  };
 }
