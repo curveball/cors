@@ -22,4 +22,15 @@ const app = new Application();
 app.use(cors());
 ```
 
+
+Without providing any cors options, it will assume to auto-generate these values
+
+```
+allowOrigin: '*',
+allowHeaders: ['"Content-Type", "User-Agent", "Authorization", "Accept", "Prefer", "Prefer-Push", "Link"'],
+allowMethods: ["DELETE", "GET", "PATCH", "POST", "PUT"],
+exposeHeaders: ["Location", "Link"]
+```
+
 [1]: https://github.com/curveball/
+
