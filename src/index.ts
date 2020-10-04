@@ -3,12 +3,14 @@ import { Forbidden } from '@curveball/http-errors';
 
 type CorsOptions = {
   allowOrigin: string[] | string,
-  allowHeaders?: string[],
-  allowMethods?: string[],
-  exposeHeaders?: string[],
+  allowHeaders: string[],
+  allowMethods: string[],
+  exposeHeaders: string[],
 }
 
-export default function(options: CorsOptions): Middleware {
+export default function(optionsInit?: Partial<CorsOptions>): Middleware {
+
+  const options = generateOptions(optionsInit);
 
   const allowedOrigins = Array.isArray(options.allowOrigin) ? options.allowOrigin : [options.allowOrigin];
 
@@ -41,4 +43,15 @@ export default function(options: CorsOptions): Middleware {
       return undefined;
     }
   };
+
+}
+
+function generateOptions(init?: Partial<CorsOptions> ) : CorsOptions {
+  if (!init) init = {};
+  return {
+    allowOrigin: init.allowOrigin || '*',
+    allowHeaders: init.allowHeaders || ['"Content-Type", "User-Agent", "Authorization", "Accept", "Prefer", "Prefer-Push", "Link"'],
+    allowMethods: init.allowMethods || ["DELETE", "GET", "PATCH", "POST", "PUT"],
+    exposeHeaders: init.exposeHeaders || ["Location", "Link"]
+  }
 }
