@@ -22,8 +22,19 @@ const app = new Application();
 app.use(cors());
 ```
 
+When manually providing CORS options, here are few options and how it should look
 
-Without providing any cors options, it will assume to auto-generate these values
+```
+app.use(cors({
+    allowOrigin: '*',
+    allowHeaders: ['Content-Type', 'Accept'],
+    allowMethods: ['GET', 'POST'],
+    exposeHeaders: ['Link', 'Date']
+}));
+
+```
+
+Providing CORS headers is optional, without providing any CORS options, it will auto-generate these values
 
 ```
 allowOrigin: '*',
@@ -31,6 +42,7 @@ allowHeaders: ['"Content-Type", "User-Agent", "Authorization", "Accept", "Prefer
 allowMethods: ["DELETE", "GET", "PATCH", "POST", "PUT"],
 exposeHeaders: ["Location", "Link"]
 ```
+
 
 [1]: https://github.com/curveball/
 
