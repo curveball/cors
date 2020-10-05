@@ -24,7 +24,7 @@ app.use(cors());
 
 When manually providing CORS options, this is how it should look:
 
-```
+```typescript
 app.use(cors({
     allowOrigin: '*',
     allowHeaders: ['Content-Type', 'Accept'],
