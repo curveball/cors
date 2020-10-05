@@ -34,7 +34,7 @@ app.use(cors({
 
 ```
 
-Providing CORS headers is optional, without providing any CORS options, it will auto-generate these values
+If no options are given, it will use these defaults:
 
 ```
 allowOrigin: '*',
@@ -45,4 +45,3 @@ exposeHeaders: ["Location", "Link"]
 
 
 [1]: https://github.com/curveball/
-
