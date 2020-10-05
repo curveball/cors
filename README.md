@@ -22,7 +22,7 @@ const app = new Application();
 app.use(cors());
 ```
 
-When manually providing CORS options, here are few options and how it should look
+When manually providing CORS options, this is how it should look:
 
 ```
 app.use(cors({
