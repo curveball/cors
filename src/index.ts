@@ -50,8 +50,8 @@ function generateOptions(init?: Partial<CorsOptions> ) : CorsOptions {
   if (!init) init = {};
   return {
     allowOrigin: init.allowOrigin || '*',
-    allowHeaders: init.allowHeaders || ['"Content-Type", "User-Agent", "Authorization", "Accept", "Prefer", "Prefer-Push", "Link"'],
-    allowMethods: init.allowMethods || ["DELETE", "GET", "PATCH", "POST", "PUT"],
-    exposeHeaders: init.exposeHeaders || ["Location", "Link"]
-  }
+    allowHeaders: init.allowHeaders || ['Content-Type', 'User-Agent', 'Authorization', 'Accept', 'Prefer', 'Prefer-Push', 'Link'],
+    allowMethods: init.allowMethods || ['DELETE', 'GET', 'PATCH', 'POST', 'PUT'],
+    exposeHeaders: init.exposeHeaders || ['Location', 'Link']
+  };
 }
