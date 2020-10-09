@@ -113,7 +113,7 @@ describe('CORS middleware', () => {
 
     expect(response.status).to.equal(200);
     expect(response.headers.get('Access-Control-Allow-Origin')).to.equal('https://example.com');
-    expect(response.headers.get('Access-Control-Allow-Headers')).to.equal('"Content-Type", "User-Agent", "Authorization", "Accept", "Prefer", "Prefer-Push", "Link"');
+    expect(response.headers.get('Access-Control-Allow-Headers')).to.equal('Content-Type, User-Agent, Authorization, Accept, Prefer, Prefer-Push, Link');
     expect(response.headers.get('Access-Control-Allow-Methods')).to.equal('DELETE, GET, PATCH, POST, PUT');
     expect(response.headers.get('Access-Control-Expose-Headers')).to.equal('Location, Link');
 
