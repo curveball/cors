@@ -22,4 +22,26 @@ const app = new Application();
 app.use(cors());
 ```
 
+When manually providing CORS options, this is how it should look:
+
+```typescript
+app.use(cors({
+    allowOrigin: '*',
+    allowHeaders: ['Content-Type', 'Accept'],
+    allowMethods: ['GET', 'POST'],
+    exposeHeaders: ['Link', 'Date']
+}));
+
+```
+
+If no options are given, it will use these defaults:
+
+```
+allowOrigin: '*',
+allowHeaders: ['"Content-Type", "User-Agent", "Authorization", "Accept", "Prefer", "Prefer-Push", "Link"'],
+allowMethods: ["DELETE", "GET", "PATCH", "POST", "PUT"],
+exposeHeaders: ["Location", "Link"]
+```
+
+
 [1]: https://github.com/curveball/
