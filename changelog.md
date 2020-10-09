@@ -4,7 +4,8 @@ Changelog
 0.1.0 (2020-10-08)
 ------------------
 
-* With no options provided as an argument, it will auto-generate all of cors options by default.
+* It is now optional now to not provided any options, it will
+  pick good default options.
 
 0.0.1 (2020-09-16)
 ------------------
