@@ -2,10 +2,10 @@ import { Middleware } from '@curveball/core';
 import { Forbidden } from '@curveball/http-errors';
 
 type CorsOptions = {
-  allowOrigin: string[] | string,
-  allowHeaders: string[],
-  allowMethods: string[],
-  exposeHeaders: string[],
+  allowOrigin: string[] | string;
+  allowHeaders: string[];
+  allowMethods: string[];
+  exposeHeaders: string[];
 }
 
 export default function(optionsInit?: Partial<CorsOptions>): Middleware {
