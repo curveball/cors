@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/curveball/cors#readme",
   "devDependencies": {
-    "@curveball/core": "^0.14.2",
+    "@curveball/core": "0.16.3",
     "@types/chai": "^4.2.13",
     "@types/mocha": "^8.0.3",
     "@types/node": "^12.20.12",
@@ -58,7 +58,7 @@
     ]
   },
   "peerDependencies": {
-    "@curveball/core": ">=0.9 <1"
+    "@curveball/core": "^0.16.3"
   },
   "mocha": {
     "require": "ts-node/register",
