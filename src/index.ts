@@ -14,19 +14,20 @@ export default function(optionsInit?: Partial<CorsOptions>): Middleware {
 
   const allowedOrigins = Array.isArray(options.allowOrigin) ? options.allowOrigin : [options.allowOrigin];
 
+  if (!allowedOrigins.every(i => !i.match(/[/]$/))) {
+    // regex matching for / ([/]) at the end ($) of string
+    console.warn('⚠️ \x1b[31m [cors] Invalid origin provided, origins never end in a / slash. Invalid origins will be ignored from the allowedOrigins list. \x1b[0m');
+    console.log('⚠️  Provided allowedOrigins list:', allowedOrigins)
+  }
+
   return (ctx, next) => {
 
     const origin = ctx.request.headers.get('Origin');
 
     if (origin) {
 
-      if (!allowedOrigins.every(i => !i.match(/[/]$/))) {
-        // regex /[\/]$/ matching / ([\/]) at the end ($) of string
-        throw new Forbidden('Cross-Origin Request Blocked: Provided allowed origin URLs cannot end with / slash.');
-      }
-
       if (!allowedOrigins.includes(origin) && !allowedOrigins.includes('*')) {
-        throw new Forbidden('HTTP request for origin ${origin} is not allowed.');
+        throw new Forbidden(`HTTP request for origin ${origin} is not allowed.`);
       }
 
       ctx.response.headers.set('Access-Control-Allow-Origin', origin);
