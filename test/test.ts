@@ -64,6 +64,29 @@ describe('CORS middleware', () => {
 
   });
 
+  it('should respond 403 Forbidden, if an origin in the allowed list has a trailing slash / at its end', async () => {
+    const options = {
+      allowOrigin: ['https://example.org/', 'https://example.com'],
+      allowHeaders: ['Content-Type', 'Accept'],
+      allowMethods: ['GET', 'POST'],
+      exposeHeaders: ['Link', 'Date']
+    };
+    const headers = {
+      Origin: 'https://example.net'
+    };
+    const app = new Application;
+    app.use(cors(options));
+
+    app.use( ctx => {
+      ctx.status = 200;
+      ctx.response.body = 'hello world';
+    });
+
+    const response = await app.subRequest('GET', '/', headers);
+
+    expect(response.status).to.equal(403);
+  });
+
   it('should respond 403 Forbidden, if the origin did not match an origin in the allowed list', async () => {
 
     const options = {
