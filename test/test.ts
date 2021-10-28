@@ -1,6 +1,8 @@
 import { Application } from '@curveball/core';
 import cors from '../src/index';
 import { expect } from 'chai';
+const sinon  = require('sinon');
+const assert = require('assert');
 
 describe('CORS middleware', () => {
 
@@ -64,27 +66,20 @@ describe('CORS middleware', () => {
 
   });
 
-  it('should respond 403 Forbidden, if an origin in the allowed list has a trailing slash / at its end', async () => {
+  it('should warn in console if an origin in the allowed list has a trailing slash / at its end', async () => {
+    
+    let spy = sinon.spy(console, 'warn');
+
     const options = {
-      allowOrigin: ['https://example.org/', 'https://example.com'],
-      allowHeaders: ['Content-Type', 'Accept'],
-      allowMethods: ['GET', 'POST'],
-      exposeHeaders: ['Link', 'Date']
-    };
-    const headers = {
-      Origin: 'https://example.net'
+      allowOrigin: ['https://example.org', 'https://example.com'],
     };
     const app = new Application;
     app.use(cors(options));
 
-    app.use( ctx => {
-      ctx.status = 200;
-      ctx.response.body = 'hello world';
-    });
+    assert(spy.calledWith('⚠️ \x1b[33m [cors] Invalid origin provided, origins never end in a / slash. Invalid origins will be ignored from the allowedOrigins list. \x1b[0m'));
 
-    const response = await app.subRequest('GET', '/', headers);
+    spy.restore();
 
-    expect(response.status).to.equal(403);
   });
 
   it('should respond 403 Forbidden, if the origin did not match an origin in the allowed list', async () => {
