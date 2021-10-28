@@ -20,6 +20,10 @@ export default function(optionsInit?: Partial<CorsOptions>): Middleware {
 
     if (origin) {
 
+      if (!allowedOrigins.every(i => !i.match(/[\/]$/))) {
+        throw new Forbidden("Cross-Origin Request Blocked: Provided allowed origin URLs cannot end with / slash.");
+      }
+
       if (!allowedOrigins.includes(origin) && !allowedOrigins.includes('*')) {
         throw new Forbidden('HTTP request for origin ${origin} is not allowed.');
       }
