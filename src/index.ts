@@ -15,14 +15,14 @@ export default function(optionsInit?: Partial<CorsOptions>): Middleware {
   const allowedOrigins = Array.isArray(options.allowOrigin) ? options.allowOrigin : [options.allowOrigin];
 
   return (ctx, next) => {
-    
+
     const origin = ctx.request.headers.get('Origin');
 
     if (origin) {
 
-      if (!allowedOrigins.every(i => !i.match(/[\/]$/))) {
+      if (!allowedOrigins.every(i => !i.match(/[/]$/))) {
         // regex /[\/]$/ matching / ([\/]) at the end ($) of string
-        throw new Forbidden("Cross-Origin Request Blocked: Provided allowed origin URLs cannot end with / slash.");
+        throw new Forbidden('Cross-Origin Request Blocked: Provided allowed origin URLs cannot end with / slash.');
       }
 
       if (!allowedOrigins.includes(origin) && !allowedOrigins.includes('*')) {
