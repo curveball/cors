@@ -17,7 +17,7 @@ export default function(optionsInit?: Partial<CorsOptions>): Middleware {
   if (!allowedOrigins.every(i => !i.match(/[/]$/))) {
     // regex matching for / ([/]) at the end ($) of string
     console.warn('⚠️ \x1b[33m [cors] Invalid origin provided, origins never end in a / slash. Invalid origins will be ignored from the allowedOrigins list. \x1b[0m');
-    console.log('⚠️  Provided allowedOrigins list:', allowedOrigins)
+    console.log('⚠️  Provided allowedOrigins list:', allowedOrigins);
   }
 
   return (ctx, next) => {

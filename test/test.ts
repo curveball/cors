@@ -1,8 +1,8 @@
 import { Application } from '@curveball/core';
 import cors from '../src/index';
 import { expect } from 'chai';
-const sinon  = require('sinon');
-const assert = require('assert');
+import sinon from 'sinon'
+import assert from 'assert'
 
 describe('CORS middleware', () => {
 
@@ -67,11 +67,11 @@ describe('CORS middleware', () => {
   });
 
   it('should warn in console if an origin in the allowed list has a trailing slash / at its end', async () => {
-    
-    let spy = sinon.spy(console, 'warn');
+
+    const spy = sinon.spy(console, 'warn');
 
     const options = {
-      allowOrigin: ['https://example.org', 'https://example.com'],
+      allowOrigin: ['https://example.org/', 'https://example.com']
     };
     const app = new Application;
     app.use(cors(options));
