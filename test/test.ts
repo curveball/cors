@@ -1,8 +1,8 @@
 import { Application } from '@curveball/core';
 import cors from '../src/index';
 import { expect } from 'chai';
-import sinon from 'sinon'
-import assert from 'assert'
+import sinon from 'sinon';
+import assert from 'assert';
 
 describe('CORS middleware', () => {
 
