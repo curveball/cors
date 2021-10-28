@@ -15,13 +15,13 @@ export default function(optionsInit?: Partial<CorsOptions>): Middleware {
   const allowedOrigins = Array.isArray(options.allowOrigin) ? options.allowOrigin : [options.allowOrigin];
 
   return (ctx, next) => {
-
+    
     const origin = ctx.request.headers.get('Origin');
 
     if (origin) {
 
       if (!allowedOrigins.includes(origin) && !allowedOrigins.includes('*')) {
-        throw new Forbidden('HTTP request for this origin is not allowed');
+        throw new Forbidden('HTTP request for origin ${origin} is not allowed.');
       }
 
       ctx.response.headers.set('Access-Control-Allow-Origin', origin);
