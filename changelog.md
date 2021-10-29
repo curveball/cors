@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.1.4 (2021-10-29)
+------------------
+
+* Warn in console if an origin passed in allowOrigin is invalid
+  and ignored due to ending with a slash.
+* Updating dependencies
+
 0.1.3 (2021-05-31)
 ------------------
 
