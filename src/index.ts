@@ -14,6 +14,12 @@ export default function(optionsInit?: Partial<CorsOptions>): Middleware {
 
   const allowedOrigins = Array.isArray(options.allowOrigin) ? options.allowOrigin : [options.allowOrigin];
 
+  if (!allowedOrigins.every(i => !i.match(/[/]$/))) {
+    // regex matching for / ([/]) at the end ($) of string
+    console.warn('⚠️ \x1b[33m [cors] Invalid origin provided, origins never end in a / slash. Invalid origins will be ignored from the allowedOrigins list. \x1b[0m'); // eslint-disable-line no-console
+    console.log('⚠️  Provided allowedOrigins list:', allowedOrigins); // eslint-disable-line no-console
+  }
+
   return (ctx, next) => {
 
     const origin = ctx.request.headers.get('Origin');
@@ -21,7 +27,7 @@ export default function(optionsInit?: Partial<CorsOptions>): Middleware {
     if (origin) {
 
       if (!allowedOrigins.includes(origin) && !allowedOrigins.includes('*')) {
-        throw new Forbidden('HTTP request for this origin is not allowed');
+        throw new Forbidden(`HTTP request for origin ${origin} is not allowed.`);
       }
 
       ctx.response.headers.set('Access-Control-Allow-Origin', origin);
