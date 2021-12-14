@@ -205,5 +205,29 @@ describe('CORS middleware', () => {
   });
 
 
+  it('should pass through OPTIONS requests if no Origin header was set', async () => {
+
+    const options = {
+      allowOrigin: ['https://example.org'],
+      allowHeaders: ['Content-Type', 'Accept'],
+      allowMethods: ['GET', 'POST'],
+      exposeHeaders: ['Link', 'Date']
+    };
+    const headers = {};
+    const app = new Application;
+    app.use(cors(options));
+
+    app.use( ctx => {
+
+      ctx.status = 200;
+      ctx.response.body = ctx.method;
+
+    });
+
+    const response = await app.subRequest('OPTIONS', '/', headers);
+    expect(response.status).to.equal(200);
+    expect(response.body).to.equal('OPTIONS');
+
+  });
 
 });

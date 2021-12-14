@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.1.5 (2021-12-14)
+------------------
+
+* #20: When OPTIONS requests are made, and they are not CORS pre-fligh
+  requests this middleware did not pass the request through for other
+  middlewares to handle.
+
+
 0.1.4 (2021-10-29)
 ------------------
 
