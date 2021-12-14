@@ -4,7 +4,7 @@ Changelog
 0.1.5 (2021-12-14)
 ------------------
 
-* #20: When OPTIONS requests are made, and they are not CORS pre-fligh
+* #20: When OPTIONS requests are made, and they are not CORS pre-flight
   requests this middleware did not pass the request through for other
   middlewares to handle.
 
