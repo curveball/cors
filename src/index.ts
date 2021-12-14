@@ -40,14 +40,17 @@ export default function(optionsInit?: Partial<CorsOptions>): Middleware {
       if (options.exposeHeaders) {
         ctx.response.headers.set('Access-Control-Expose-Headers', options.exposeHeaders);
       }
+      if (ctx.method==='OPTIONS') {
+        // This was a pre-flight request, so we no longer want to pass this request
+        // down the stack.
+        ctx.status = 200;
+        return;
+      }
+
     }
 
-    if (ctx.method !== 'OPTIONS') {
-      return next();
-    } else {
-      ctx.status = 200;
-      return undefined;
-    }
+    return next();
+
   };
 
 }
