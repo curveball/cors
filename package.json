@@ -39,7 +39,7 @@
     "@curveball/core": "^0.17.0",
     "@types/chai": "^4.2.22",
     "@types/mocha": "^9.0.0",
-    "@types/node": "^0.12.25",
+    "@types/node": "^14.18.12",
     "@types/sinon": "^10.0.6",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
