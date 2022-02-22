@@ -58,7 +58,7 @@
     ]
   },
   "peerDependencies": {
-    "@curveball/core": ">=0.16.3"
+    "@curveball/core": ">=0.16.3 <1"
   },
   "mocha": {
     "require": "ts-node/register",
