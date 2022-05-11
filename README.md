@@ -40,9 +40,9 @@ If no options are given, it will use these defaults:
 ```typescript
 {
     allowOrigin: '*',
-    allowHeaders: ['"Content-Type", "User-Agent", "Authorization", "Accept", "Prefer", "Prefer-Push", "Link"'],
-    allowMethods: ["DELETE", "GET", "PATCH", "POST", "PUT"],
-    exposeHeaders: ["Location", "Link"]
+    allowHeaders: ['Content-Type', 'User-Agent', 'Authorization', 'Accept', 'Prefer', 'Prefer-Push', 'Link'],
+    allowMethods: ['DELETE', 'GET', 'PATCH', 'POST', 'PUT'],
+    exposeHeaders: ['Location', 'Link'],
     credentials: false
 }
 ```
