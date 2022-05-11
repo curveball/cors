@@ -29,18 +29,22 @@ app.use(cors({
     allowOrigin: '*',
     allowHeaders: ['Content-Type', 'Accept'],
     allowMethods: ['GET', 'POST'],
-    exposeHeaders: ['Link', 'Date']
+    exposeHeaders: ['Link', 'Date'],
+    credentials: true
 }));
 
 ```
 
 If no options are given, it will use these defaults:
 
-```
-allowOrigin: '*',
-allowHeaders: ['"Content-Type", "User-Agent", "Authorization", "Accept", "Prefer", "Prefer-Push", "Link"'],
-allowMethods: ["DELETE", "GET", "PATCH", "POST", "PUT"],
-exposeHeaders: ["Location", "Link"]
+```typescript
+{
+    allowOrigin: '*',
+    allowHeaders: ['"Content-Type", "User-Agent", "Authorization", "Accept", "Prefer", "Prefer-Push", "Link"'],
+    allowMethods: ["DELETE", "GET", "PATCH", "POST", "PUT"],
+    exposeHeaders: ["Location", "Link"]
+    credentials: false
+}
 ```
 
 
