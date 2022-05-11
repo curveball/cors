@@ -5,9 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "prepublishOnly": "make build",
-    "test": "make lint test",
+    "test": "make test",
     "tsc": "tsc",
-    "start": "make start"
+    "start": "make start",
+    "lint": "make lint"
   },
   "repository": {
     "type": "git",
