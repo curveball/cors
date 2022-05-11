@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.1.7 (2022-05-11)
+------------------
+
+* Support for the `Access-Control-Allow-Credentials` header. (@defrex)
+* Now emits a warning when an `Origin` is set that ends with a slash. This
+  is a common mistake and always wrong. (@BeckyPollard)
+
+
 0.1.6 (2022-02-22)
 ------------------
 
