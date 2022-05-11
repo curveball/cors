@@ -172,6 +172,54 @@ describe('CORS middleware', () => {
 
   });
 
+  it('should support credentials', async () => {
+
+    const options = {
+      allowOrigin: '*',
+      allowHeaders: ['Content-Type', 'Accept'],
+      allowMethods: ['GET', 'POST'],
+      credentials: true
+    };
+    const headers = {
+      Origin: 'https://example.net'
+    };
+    const app = new Application;
+    app.use(cors(options));
+
+    app.use( ctx => {
+
+      ctx.status = 200;
+      ctx.response.body = 'hello world';
+
+    });
+
+    const response = await app.subRequest('GET', '/', headers);
+
+    expect(response.status).to.equal(200);
+    expect(response.headers.get('Access-Control-Allow-Origin')).to.equal('https://example.net');
+    expect(response.headers.get('Access-Control-Allow-Headers')).to.equal('Content-Type, Accept');
+    expect(response.headers.get('Access-Control-Allow-Methods')).to.equal('GET, POST');
+    expect(response.headers.get('Access-Control-Allow-Credentials')).to.equal('true');
+
+    expect(response.body).to.equal('hello world');
+
+  });
+
+  it('should prevent using credentials with * headers', async () => {
+
+    const options = {
+      allowOrigin: '*',
+      allowHeaders: ['*'],
+      allowMethods: ['GET', 'POST'],
+      credentials: true
+    };
+
+    expect(() => {
+      cors(options);
+    }).to.throw();
+
+  });
+
   it('should respond to OPTIONS request', async() => {
     const options = {
       allowOrigin: ['https://example.org'],

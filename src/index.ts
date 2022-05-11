@@ -6,7 +6,7 @@ type CorsOptions = {
   allowHeaders: string[];
   allowMethods: string[];
   exposeHeaders: string[];
-  credentials?: boolean
+  credentials?: boolean;
 }
 
 export default function(optionsInit?: Partial<CorsOptions>): Middleware {
@@ -14,7 +14,7 @@ export default function(optionsInit?: Partial<CorsOptions>): Middleware {
   const options = generateOptions(optionsInit);
 
   if (options.credentials && options.allowHeaders.includes('*')) {
-    throw new Error('Access-Control-Allow-Headers cannot be * when Access-Control-Allow-Credentials is true')
+    throw new Error('Access-Control-Allow-Headers cannot be * when Access-Control-Allow-Credentials is true');
   }
 
   const allowedOrigins = Array.isArray(options.allowOrigin) ? options.allowOrigin : [options.allowOrigin];
