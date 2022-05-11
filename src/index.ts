@@ -6,11 +6,16 @@ type CorsOptions = {
   allowHeaders: string[];
   allowMethods: string[];
   exposeHeaders: string[];
+  credentials?: boolean;
 }
 
 export default function(optionsInit?: Partial<CorsOptions>): Middleware {
 
   const options = generateOptions(optionsInit);
+
+  if (options.credentials && options.allowHeaders.includes('*')) {
+    throw new Error('Access-Control-Allow-Headers cannot be * when Access-Control-Allow-Credentials is true');
+  }
 
   const allowedOrigins = Array.isArray(options.allowOrigin) ? options.allowOrigin : [options.allowOrigin];
 
@@ -40,6 +45,9 @@ export default function(optionsInit?: Partial<CorsOptions>): Middleware {
       if (options.exposeHeaders) {
         ctx.response.headers.set('Access-Control-Expose-Headers', options.exposeHeaders);
       }
+      if (options.credentials) {
+        ctx.response.headers.set('Access-Control-Allow-Credentials', 'true');
+      }
       if (ctx.method==='OPTIONS') {
         // This was a pre-flight request, so we no longer want to pass this request
         // down the stack.
@@ -61,6 +69,7 @@ function generateOptions(init?: Partial<CorsOptions> ) : CorsOptions {
     allowOrigin: init.allowOrigin || '*',
     allowHeaders: init.allowHeaders || ['Content-Type', 'User-Agent', 'Authorization', 'Accept', 'Prefer', 'Prefer-Push', 'Link'],
     allowMethods: init.allowMethods || ['DELETE', 'GET', 'PATCH', 'POST', 'PUT'],
-    exposeHeaders: init.exposeHeaders || ['Location', 'Link']
+    exposeHeaders: init.exposeHeaders || ['Location', 'Link'],
+    credentials: init.credentials || false
   };
 }
