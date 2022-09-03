@@ -1,4 +1,4 @@
-import { Application } from '@curveball/core';
+import { Application } from '@curveball/kernel';
 import cors from '../src/index';
 import { expect } from 'chai';
 import * as sinon from 'sinon';

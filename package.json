@@ -1,6 +1,6 @@
 {
   "name": "@curveball/cors",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "CORS middleware for curveball",
   "main": "dist/index.js",
   "scripts": {
@@ -40,19 +40,19 @@
     "node": ">= 12"
   },
   "devDependencies": {
-    "@curveball/core": "^0.17.0",
+    "@curveball/kernel": "^0.20.0",
     "@types/chai": "^4.2.22",
-    "@types/mocha": "^9.0.0",
-    "@types/node": "^14.18.12",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "^14.18.26",
     "@types/sinon": "^10.0.6",
-    "@typescript-eslint/eslint-plugin": "^5.2.0",
-    "@typescript-eslint/parser": "^5.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
     "chai": "^4.2.0",
-    "eslint": "^8.1.0",
+    "eslint": "^8.23.0",
     "mocha": "^10.0.0",
     "nyc": "^15.1.0",
     "sinon": "^14.0.0",
-    "ts-node": "^10.4.0",
+    "ts-node": "^10.9.1",
     "typescript": "^4.4.4"
   },
   "types": "dist/",
@@ -60,9 +60,6 @@
     "extension": [
       ".ts"
     ]
-  },
-  "peerDependencies": {
-    "@curveball/core": ">=0.16.3 <1"
   },
   "mocha": {
     "require": "ts-node/register",
@@ -75,5 +72,8 @@
   },
   "dependencies": {
     "@curveball/http-errors": "^0.4.0"
+  },
+  "peerDependencies": {
+    "@curveball/kernel": "=>0.20.0 <1"
   }
 }
