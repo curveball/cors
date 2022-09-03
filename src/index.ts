@@ -1,4 +1,4 @@
-import { Middleware } from '@curveball/core';
+import { Middleware } from '@curveball/kernel';
 import { Forbidden } from '@curveball/http-errors';
 
 type CorsOptions = {
