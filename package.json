@@ -37,7 +37,7 @@
     "url": "git+https://github.com/curveball/cors.git"
   },
   "dependencies": {
-    "@curveball/http-errors": "^0.4.0"
+    "@curveball/http-errors": "^0.5.0"
   },
   "peerDependencies": {
     "@curveball/kernel": ">=0.21.0 <1"
