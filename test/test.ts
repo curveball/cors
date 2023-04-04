@@ -1,8 +1,7 @@
 import { Application } from '@curveball/kernel';
 import cors from '../src/index.js';
-import { expect } from 'chai';
 import * as sinon from 'sinon';
-import * as assert from 'assert';
+import { expect } from 'chai';
 
 describe('CORS middleware', () => {
 
@@ -76,7 +75,7 @@ describe('CORS middleware', () => {
     const app = new Application;
     app.use(cors(options));
 
-    assert(spy.calledWith('⚠️ \x1b[33m [cors] Invalid origin provided, origins never end in a / slash. Invalid origins will be ignored from the allowedOrigins list. \x1b[0m'));
+    expect(spy.calledWith('⚠️ \x1b[33m [cors] Invalid origin provided, origins never end in a / slash. Invalid origins will be ignored from the allowedOrigins list. \x1b[0m')).to.equal(true);
 
     spy.restore();
 
