@@ -1,5 +1,5 @@
 import { Application } from '@curveball/kernel';
-import cors from '../src/index';
+import cors from '../src/index.js';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as assert from 'assert';
