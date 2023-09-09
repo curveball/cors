@@ -25,13 +25,19 @@ export default function(optionsInit?: Partial<CorsOptions>): Middleware {
     console.log('⚠️  Provided allowedOrigins list:', allowedOrigins); // eslint-disable-line no-console
   }
 
+  const allowedOriginRegexes = generateOriginRegexes(allowedOrigins);
+
   return (ctx, next) => {
 
     const origin = ctx.request.headers.get('Origin');
 
     if (origin) {
 
-      if (!allowedOrigins.includes(origin) && !allowedOrigins.includes('*')) {
+      const isOriginAllowed = allowedOriginRegexes.some((regex) =>
+        regex.test(origin),
+      );
+
+      if (!isOriginAllowed) {
         throw new Forbidden(`HTTP request for origin ${origin} is not allowed.`);
       }
 
@@ -72,4 +78,31 @@ function generateOptions(init?: Partial<CorsOptions> ) : CorsOptions {
     exposeHeaders: init.exposeHeaders || ['Location', 'Link'],
     credentials: init.credentials || false
   };
+}
+
+/**
+ * Generate regexes for all allowed origins.
+ *
+ * 'https://*.example.com' -> ^https://[^ ]*\.example\.com$ (matches all subdomains)
+ * 'https://example.com'   -> ^https://example\.com$        (matches only this)
+ * '*'                     -> '^[^ ]*$                      (matches everything)
+ */
+function generateOriginRegexes(allowedOrigins: string[]): RegExp[] {
+  return allowedOrigins.map(
+    (pattern) => {
+      const escapedPattern = escapeOriginPattern(pattern);
+      return  new RegExp(`^${escapedPattern.replace(/\*/g, '[^ ]*')}$`);
+    }
+  );
+}
+
+/**
+ * Escape special characters in a pattern. This prevents issues where special characters
+ * such as a dot in the pattern are interpreted as regex characters.
+ *
+ * For example:
+ * 'https://*.example.com' -> 'https://[^ ]*\.example\.com'
+ */
+function escapeOriginPattern(s: string): string {
+  return s.replace(/\./g, '\\.');
 }
