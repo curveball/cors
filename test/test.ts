@@ -277,4 +277,103 @@ describe('CORS middleware', () => {
 
   });
 
+  it('should allow origin matching wildcard pattern', async () => {
+    const options = {
+      allowOrigin: ['https://*.example.com']
+    };
+    const headers = {
+      Origin: 'https://sub.example.com'
+    };
+    const app = new Application;
+    app.use(cors(options));
+    app.use( ctx => {
+      ctx.status = 200;
+      ctx.response.body = 'hello world';
+    });
+
+    const response = await app.subRequest('GET', '/', headers);
+    expect(response.status).to.equal(200);
+    expect(response.headers.get('Access-Control-Allow-Origin')).to.equal('https://sub.example.com');
+  });
+
+  it('should disallow origin not matching wildcard pattern', async () => {
+    const options = {
+      allowOrigin: ['https://*.example.com']
+    };
+    const headers = {
+      Origin: 'https://sub.example.net'
+    };
+    const app = new Application;
+    app.use(cors(options));
+    app.use( ctx => {
+      ctx.status = 200;
+      ctx.response.body = 'hello world';
+    });
+
+    const response = await app.subRequest('GET', '/', headers);
+    expect(response.status).to.equal(403);
+  });
+
+  it('should disallow origin that partially matches wildcard pattern', async () => {
+    const options = {
+      allowOrigin: ['https://*.example.com']
+    };
+    const headers = {
+      Origin: 'https://evilexample.com'
+    };
+    const app = new Application;
+    app.use(cors(options));
+    app.use( ctx => {
+      ctx.status = 200;
+      ctx.response.body = 'hello world';
+    });
+
+    const response = await app.subRequest('GET', '/', headers);
+    expect(response.status).to.equal(403);
+  });
+
+  it('should disallow origin that overlap with the wildcard domain name', async () => {
+    const options = {
+      allowOrigin: ['https://*.example.com']
+    };
+    const headers = {
+      Origin: 'https://example.com.evil.com'
+    };
+    const app = new Application;
+    app.use(cors(options));
+    app.use( ctx => {
+      ctx.status = 200;
+      ctx.response.body = 'hello world';
+    });
+
+    const response = await app.subRequest('GET', '/', headers);
+    expect(response.status).to.equal(403);
+  });
+
+  it('should allow multiple wildcard patterns', async () => {
+    const options = {
+      allowOrigin: ['https://*.example.com', 'https://*.example.net']
+    };
+    const headers1 = {
+      Origin: 'https://sub.example.com'
+    };
+    const headers2 = {
+      Origin: 'https://sub.example.net'
+    };
+    const app = new Application;
+    app.use(cors(options));
+    app.use( ctx => {
+      ctx.status = 200;
+      ctx.response.body = 'hello world';
+    });
+
+    const response1 = await app.subRequest('GET', '/', headers1);
+    expect(response1.status).to.equal(200);
+    expect(response1.headers.get('Access-Control-Allow-Origin')).to.equal('https://sub.example.com');
+
+    const response2 = await app.subRequest('GET', '/', headers2);
+    expect(response2.status).to.equal(200);
+    expect(response2.headers.get('Access-Control-Allow-Origin')).to.equal('https://sub.example.net');
+  });
+
 });
