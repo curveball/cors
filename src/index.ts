@@ -20,7 +20,7 @@ function isOriginAllowed(allowOrigin: string | string[] | OriginValidator, origi
   return allowedOrigins.includes(origin) || allowedOrigins.includes('*');
 }
 
-function setCorsHeaders(ctx: Context, options: CorsOptions, origin: string) {
+function setCorsHeaders(ctx: Context, options: CorsOptions, origin: string): void {
   ctx.response.headers.set('Access-Control-Allow-Origin', origin);
   if (options.allowHeaders ) {
     ctx.response.headers.set('Access-Control-Allow-Headers', options.allowHeaders);
