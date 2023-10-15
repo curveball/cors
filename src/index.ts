@@ -1,8 +1,10 @@
 import { Middleware } from '@curveball/kernel';
 import { Forbidden } from '@curveball/http-errors';
 
+type OriginValidator = (origin: string) => boolean;
+
 type CorsOptions = {
-  allowOrigin: string[] | string;
+  allowOrigin: string[] | string | OriginValidator;
   allowHeaders: string[];
   allowMethods: string[];
   exposeHeaders: string[];
@@ -13,16 +15,20 @@ export default function(optionsInit?: Partial<CorsOptions>): Middleware {
 
   const options = generateOptions(optionsInit);
 
+  let allowedOrigins: string[] = [];
+
   if (options.credentials && options.allowHeaders.includes('*')) {
     throw new Error('Access-Control-Allow-Headers cannot be * when Access-Control-Allow-Credentials is true');
   }
 
-  const allowedOrigins = Array.isArray(options.allowOrigin) ? options.allowOrigin : [options.allowOrigin];
+  if (typeof options.allowOrigin === 'string' || Array.isArray(options.allowOrigin)) {
+    allowedOrigins = Array.isArray(options.allowOrigin) ? options.allowOrigin : [options.allowOrigin];
 
-  if (!allowedOrigins.every(i => !i.match(/[/]$/))) {
-    // regex matching for / ([/]) at the end ($) of string
-    console.warn('⚠️ \x1b[33m [cors] Invalid origin provided, origins never end in a / slash. Invalid origins will be ignored from the allowedOrigins list. \x1b[0m'); // eslint-disable-line no-console
-    console.log('⚠️  Provided allowedOrigins list:', allowedOrigins); // eslint-disable-line no-console
+    if (!allowedOrigins.every(i => typeof i === 'string' && !i.match(/[/]$/))) {
+      // regex matching for / ([/]) at the end ($) of string
+      console.warn('⚠️ \x1b[33m [cors] Invalid origin provided, origins never end in a / slash. Invalid origins will be ignored from the allowedOrigins list. \x1b[0m'); // eslint-disable-line no-console
+      console.log('⚠️  Provided allowedOrigins list:', allowedOrigins); // eslint-disable-line no-console
+    }
   }
 
   return (ctx, next) => {
@@ -31,7 +37,11 @@ export default function(optionsInit?: Partial<CorsOptions>): Middleware {
 
     if (origin) {
 
-      if (!allowedOrigins.includes(origin) && !allowedOrigins.includes('*')) {
+      if (typeof options.allowOrigin === 'function') {
+        if (!options.allowOrigin(origin)) {
+          throw new Forbidden(`HTTP request for origin ${origin} is not allowed.`);
+        }
+      } else if (!allowedOrigins.includes(origin) && !allowedOrigins.includes('*')) {
         throw new Forbidden(`HTTP request for origin ${origin} is not allowed.`);
       }
 
