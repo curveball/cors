@@ -32,6 +32,35 @@ describe('CORS middleware', () => {
 
   });
 
+  it('should not respond with CORS headers if there was no Origin header when using origin validator callback', async () => {
+
+    const options = {
+      allowOrigin: (origin: string) => {
+        return false;
+      }
+    };
+    const app = new Application;
+    app.use(cors(options));
+
+    app.use( ctx => {
+
+      ctx.status = 200;
+      ctx.response.body = 'hello world';
+
+    });
+
+    const response = await app.subRequest('GET', '/');
+
+    expect(response.status).to.equal(200);
+    expect(response.headers.has('Access-Control-Allow-Origin')).to.equal(false);
+    expect(response.headers.has('Access-Control-Allow-Headers')).to.equal(false);
+    expect(response.headers.has('Access-Control-Allow-Methods')).to.equal(false);
+    expect(response.headers.has('Access-Control-Expose-Headers')).to.equal(false);
+
+    expect(response.body).to.equal('hello world');
+
+  });
+
   it('should respond with CORS headers if there was a Origin header on a GET request', async () => {
 
     const options = {
@@ -65,6 +94,39 @@ describe('CORS middleware', () => {
 
   });
 
+
+  it('should respond with CORS headers if there was a Origin header that matches the origin validator callback', async () => {
+
+    const options = {
+      allowOrigin: (origin: string) => {
+        return origin === 'https://example.com';
+      },
+    };
+    const headers = {
+      Origin: 'https://example.com'
+    };
+    const app = new Application;
+    app.use(cors(options));
+
+    app.use( ctx => {
+
+      ctx.status = 200;
+      ctx.response.body = 'hello world';
+
+    });
+
+    const response = await app.subRequest('GET', '/', headers);
+
+    expect(response.status).to.equal(200);
+    expect(response.headers.get('Access-Control-Allow-Origin')).to.equal('https://example.com');
+    expect(response.headers.get('Access-Control-Allow-Headers')).to.equal('Content-Type, User-Agent, Authorization, Accept, Prefer, Prefer-Push, Link');
+    expect(response.headers.get('Access-Control-Allow-Methods')).to.equal('DELETE, GET, PATCH, POST, PUT');
+    expect(response.headers.get('Access-Control-Expose-Headers')).to.equal('Location, Link');
+
+    expect(response.body).to.equal('hello world');
+
+  });
+
   it('should warn in console if an origin in the allowed list has a trailing slash / at its end', async () => {
 
     const spy = sinon.spy(console, 'warn');
@@ -91,6 +153,35 @@ describe('CORS middleware', () => {
     };
     const headers = {
       Origin: 'https://example.net'
+    };
+    const app = new Application;
+    app.use(cors(options));
+
+    app.use( ctx => {
+
+      ctx.status = 200;
+      ctx.response.body = 'hello world';
+
+    });
+
+    const response = await app.subRequest('GET', '/', headers);
+
+    expect(response.status).to.equal(403);
+
+  });
+
+
+  it('should respond 403 Forbidden, if the origin did not match the origin validator callback', async () => {
+    const options = {
+      allowOrigin: (origin: string) => {
+        return origin !== 'https://example.com';
+      },
+      allowHeaders: ['Content-Type', 'Accept'],
+      allowMethods: ['GET', 'POST'],
+      exposeHeaders: ['Link', 'Date']
+    };
+    const headers = {
+      Origin: 'https://example.com'
     };
     const app = new Application;
     app.use(cors(options));
