@@ -1,6 +1,6 @@
 {
   "name": "@curveball/cors",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "CORS middleware for curveball",
   "type": "module",
   "exports": "./dist/index.js",
